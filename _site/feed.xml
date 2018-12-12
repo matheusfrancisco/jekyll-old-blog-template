@@ -1,0 +1,1139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Matheus Francisco</title>
+    <description>Um blog de um estudande de engenharia de computação e apaixonado por desenvolvimento de software e hardware.
+</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 05 Mar 2017 11:31:26 -0300</pubDate>
+    <lastBuildDate>Sun, 05 Mar 2017 11:31:26 -0300</lastBuildDate>
+    <generator>Jekyll v3.4.0</generator>
+    
+      <item>
+        <title>Introdução a Grafos</title>
+        <description>&lt;p&gt;&lt;img src=&quot;/images/introducao-a-grafos/gph.jpg&quot; alt=&quot;grafoss&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Fala clã, hoje gostaria de compartilhar com vocês uma postagem sobre teoria de grafos criada por um amigo meu
+&lt;a href=&quot;https://www.facebook.com/gabrieelgear&quot;&gt;Gabriel Ghellere&lt;/a&gt; , então qualquer dúvida marotinha podem encher o (&lt;del&gt;FAICEBUQUI&lt;/del&gt;) dele de msg.&lt;/p&gt;
+
+&lt;p&gt;Então como eu sei que é de manhãzinha e ninguém vai querer ler tudo vou postar uma imagem motivadora pra todos irem até o final..&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-grafos/dog.jpg&quot; alt=&quot;dog&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Essa fofura esta pedindo para ler tudo ‘&lt;strong&gt;———–&lt;/strong&gt;’&lt;/p&gt;
+
+&lt;p&gt;Let’s go to the post.&lt;/p&gt;
+
+&lt;h1 id=&quot;introdução&quot;&gt;Introdução.&lt;/h1&gt;
+&lt;p&gt;Daee galera, chegou uma hora muito esperada, vamos começar a falar sobre grafos, como esse é um
+assunto extremamente vasto nesse post vamos começar devagar mostrando os conceitos básicos e algumas implementações pra não ficar só na teoria.
+Um breve conhecimento de C++ seria interessante para acompanhar as implementações (&lt;del&gt;maaaaaaas se você não programa em C++, também vai intender com facilidade&lt;/del&gt;).&lt;/p&gt;
+
+&lt;h1 id=&quot;o-que-é-são-grafos&quot;&gt;O que é são Grafos?&lt;/h1&gt;
+
+&lt;p&gt;Um grafo é uma estrutura formada por vértices e arcos (&lt;del&gt;bolinhas e linhas&lt;/del&gt;) esse é um exemplo de grafo:&lt;br /&gt;
+&lt;img src=&quot;/images/introducao-a-grafos/g.png&quot; alt=&quot;grafo&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Nós colocamos nossas informações nas vértices, onde cada uma possui um número de identificação e os arcos são responsáveis
+ pela ligação das vértices formando um conjunto. Com o conjunto formado podemos fazer várias coisas interessantes (&lt;del&gt;ou não&lt;/del&gt;)
+ por exemplo executar buscas, MAIS FALAÇADA…&lt;/p&gt;
+
+&lt;p&gt;Para implementar os grafos ainda precisamos entender mais alguns conceitos importantes como: Vértices vizinho, tamanho , Dígrafos e Grau de saída e entrada.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Vértice vizinho: Dizemos que dois vértices são vizinhos se existe um arco ligando eles (na imagem acima podemos ver que o vértice 0 é vizinho do 4 e do 1, o vértice 1 é vizinho do 0, 4 e 2 e assim segue.&lt;/li&gt;
+  &lt;li&gt;O tamanho de um grafo é a soma de suas vértices e arcos.&lt;/li&gt;
+  &lt;li&gt;Dígrafos, ou grafos dirigido ou ainda grafo orientado é um grafo onde seus arcos possuem um sentido, acrescentando o sentido no grafo do exemplo fica assim.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-grafos/grafos.jpg&quot; alt=&quot;graphs&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Isso significa que para percorrer o dígrafo temos que seguir um   caminho limitado sempre seguindo a seta,
+ou seja para chegar no  vértice 3 partindo do 0 precisamos passar primeiro pelo 4 ou como   caminho alternativo 0 – 4 – 1 – 2 – 3.&lt;/p&gt;
+
+&lt;h1 id=&quot;mas-como-eu-programo-isso&quot;&gt;Mas como eu programo isso?&lt;/h1&gt;
+&lt;p&gt;Existem várias maneiras de representar grafos, as clássicas são a matriz de adjacência e lista de adjacência. Vamos falar sobre as duas e você escolhe qual usar tendo em vista que cada uma possui vantagens e desvantagens.&lt;/p&gt;
+
+&lt;h2 id=&quot;matriz-de-adjacência&quot;&gt;Matriz de adjacência&lt;/h2&gt;
+
+&lt;p&gt;A matriz de adjacência é uma matriz booleana com colunas e linhas representando os vértices, representamos como true (1) na matriz se dois vértices são vizinhos e false (0) se não são.&lt;br /&gt;
+&lt;img src=&quot;/images/introducao-a-grafos/confused.jpg&quot; alt=&quot;Ta confuso?&quot; /&gt;&lt;br /&gt;
+ Vamos montar a matriz do grafo anterior pra ver se melhora, lembrando que a primeira linha e a primeira coluna representam os vértices e o tamanho da matriz é igual ao número de vértices no grafo. Chamaremos a matriz de Adjacência de matrizAdj .&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-grafos/gp.jpg&quot; alt=&quot;gp&quot; /&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+matrizAdj[5][5] = \left[\begin{array}
+{rrr}
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\
+1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 \\
+1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0  \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
+\end{array}\right] %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Como o vértice 0 é vizinho dos vértices 5 e 1 os índices da matrizAdj[0][4]  e matrizAdj[0][1] são marcados como &lt;font color=&quot;red&quot;&gt;true&lt;/font&gt;,
+como o vértice 3 é vizinho dos vértices 2, 4, 5 os índices matrizAdj[3][2], matrizAdj[3][4], matrizAdj[3][5] são marcados &lt;font color=&quot;red&quot;&gt;true&lt;/font&gt;.
+Essa lógica segue até marcarmos todos os índices, mas agora vamos ver isso em c++…
+A implementação da Matriz de adjacência é bem simples. Primeiro definimos a matriz:&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;matrAdj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,},&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,},&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,},&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,},&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,},&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Nossa matriz de ascendência está declarada, logo o grafo está construído como esse exemplo é didático não estamos guardando informações nos nós exceto a identificação, assim,  podemos implementar uma função interessante para verificar se dois vértices são ou não vizinhos.&lt;/p&gt;
+
+&lt;p&gt;A função vizinho vai receber o número de dois vértices e retorna verdadeiro se eles são realmente vizinhos ou
+retorna &lt;font color=&quot;blue&quot;&gt;false&lt;/font&gt; ou  (&lt;del&gt;ela só verifica se o índice dos vértices na matriz é igual a 1 ou 0&lt;/del&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vizinho&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;matrAdj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;lista-de-adjacência&quot;&gt;Lista de adjacência&lt;/h2&gt;
+&lt;p&gt;Vamos complicar um pouquinho agora clã,  de adjacência essa representação possuímos um array de listas encadeadas e cada vértice do grafo representa um índice do array, essa lista possui todos os vizinhos do vértice em questão.&lt;/p&gt;
+
+&lt;font color=&quot;red&quot;&gt; &lt;b&gt;Atenção que para esse exemplo vamos usar o dígrafo.&lt;/b&gt; &lt;/font&gt;
+
+&lt;p&gt;Como a melhor maneira de aprender é na prática, vamos montar a lista de adjacência do nosso dígrafo já conhecido. A primeira coluna representa o array de vértices e
+a lista encadeada com seus vizinhos &lt;font color=&quot;red&quot;&gt; &lt;b&gt;atenção que agora precisamos respeitar o sentido do dígrafo&lt;/b&gt;&lt;/font&gt;.
+&lt;br /&gt;
+&lt;img src=&quot;/images/introducao-a-grafos/list.jpg&quot; alt=&quot;list&quot; /&gt;
+&lt;br /&gt;
+&lt;img src=&quot;/images/introducao-a-grafos/grafos.jpg&quot; alt=&quot;graphs&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;implementação-da-lista-de-adjacência&quot;&gt;Implementação da lista de adjacência&lt;/h4&gt;
+&lt;p&gt;Para facilitar essa implementação e não fugir do foco usaremos algumas bibliotecas nativas do c++ então começamos nosso código assim:&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;list&amp;gt; //biblioteca para criação de listas encadeadas
+#include &amp;lt;algorithm&amp;gt; //Vamos usar a função find da biblioteca Algorithm
+&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Vale salientar que temos um post sobre listas encadeadas e sua implementação nesse projeto seria um bom treino.
+Agora com as bibliotecas adicionadas temos que definir nossa classe Grafo.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Grafo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//ponteiro o para o array de listas
+&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;Grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//construtor
+&lt;/span&gt;  &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grauDeSaida&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vizinho&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A variável V corresponde ao tamanho do grafo, também criamos um ponteiro para o array de listas. Em public declaramos o construtor com o que recebe o tamanho do grafo, a função adicionarArco recebe dois vértices e adiciona o vértice 2 na lista de adjacência do vértice 1, o método grauDeSaida recebe um vértice e retorna seu grau de saída e a função vizinho recebe dois vértices e retorna True se forem vizinhos ou False se não. Esses são métodos básicos e bastante úteis.&lt;/p&gt;
+
+&lt;p&gt;O próximo passo é definir nosso construtor.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;Grafo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//atribui o numero de vértices
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//Alocamos espaço e criamos a lista de adjacência
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Agora a função responsável por criar os arcos e adicionar os vértices ela recebe 2 vértices e adiciona o vértice 2 a lista de vértices adjacentes do vértice 1. O método push_back é responsável por adicionar o vértice no final da lista.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Grafo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;//adiciona vertice2 a lista de vertices adjacentes do vertice1
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push_back&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Obtendo o grau de saída, para isso utilizamos o método size para nos mostrar o tamanho da lista encadeada (o tamanho dela corresponde ao grau de saída).&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Grafo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;grauDeSaida&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//arestas que sai do vertice
+&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Finalmente a função vizinho, onde usamos  o método find da biblioteca Algorithm que vai buscar na lista de adjacência do vértice1 o vértice2, se o vértice for encontrado eles são vizinhos logo retornamos true, senão retornamos false.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Grafo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vizinho&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vertice2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vertice1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Agora só falta construirmos nossa main e nela usamos os métodos anteriores para criar o grafo e fazer algumas.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;//criando um grafo de 6 vértices
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Grafo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;//Inserindo….
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adicionarArco&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;//Grau de saida do vertice 3 (por exemplo)
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Grau de saida do vertice 3: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;grauDeSaida&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;//Verificando vizinhos 0 e 2 por exemplo
+&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;grafo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vizinho&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;2 eh vizinho de 0&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;2 nem eh vizinho de 0&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusão&quot;&gt;Conclusão&lt;/h2&gt;
+
+&lt;p&gt;Então galerinha espero que vocês gostem desta postagem, meu amigo mandou muito bem nela explicadinha
+(&lt;del&gt;puxando saco&lt;/del&gt;) vou deixar disponível os códigos fontes, espero que não tenha ficado muito complexo ou muito superficial.
+ Muito obrigado e bons estudos qualquer dúvida basta mandar milhões de msg no(&lt;del&gt;&lt;a href=&quot;https://www.facebook.com/gabrieelgear&quot;&gt;FAICEBUQUE&lt;/a&gt;&lt;/del&gt;) dele.
+(&lt;del&gt;hastaglogoteracoisaslegais&lt;/del&gt;).
+&lt;a href=&quot;https://github.com/matheusfrancisco/matheusfrancisco.github.io/blob/master/artigos/introducao-grafos.pdf&quot;&gt;Também tem o link de downlaod da postagem original que eu recebi&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;alguns-links-sobre-o-assunto&quot;&gt;Alguns links sobre o assunto.&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.cplusplus.com/reference/&quot;&gt;c++&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.ime.usp.br/~pf/algoritmos_para_grafos/index.html#contents&quot;&gt;graphs&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;font color=&quot;#009999
+&quot;&gt;Que a força esteja com você.
+&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;Abração.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 05 Mar 2017 00:58:47 -0300</pubDate>
+        <link>http://localhost:4000/introducao-a-grafos/</link>
+        <guid isPermaLink="true">http://localhost:4000/introducao-a-grafos/</guid>
+        
+        <category>Introducao Grafos</category>
+        
+        <category>C++</category>
+        
+        <category>Linguagem de programação</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Introdução a redes neurais</title>
+        <description>&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/rna.jpg&quot; alt=&quot;RNA&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Falaaaa galerinha do bem, tudo certo? Estamos aqui mais uma vez pra fazer aquela postagem marotinha, então pegue
+seu &lt;font color=&quot;red&quot;&gt;café &amp;lt;3&lt;/font&gt; coloque pra tocar aquele &lt;font color=&quot;red&quot;&gt;AC(~~raio~~)DC&lt;/font&gt;,&lt;font color=&quot;blue&quot;&gt; music: It's a Long Way to the Top(if you wanna rock n' roll) &lt;/font&gt; e bora aprende um pouco sobre IA e as tals de redes neurais, já vou logo
+avisando esta postagem pode ser mtttttt chatinha..&lt;/p&gt;
+
+&lt;h1 id=&quot;introdução&quot;&gt;Introdução.&lt;/h1&gt;
+&lt;p&gt;Esse negócio de estudar  redes neurais (&lt;del&gt;neurocomputação&lt;/del&gt;) surgiram em 1943, com Warren McCulloch e Walter Pitts, mas o que são redes neurais artificiais - RNA’s
+basicamente modelos matemáticos inspirados no princípio de funcionamento do neurônio biológico,  elas buscam simular habilidades humanas tais como: aprendizado, generalização, associação
+e abstração.&lt;/p&gt;
+
+&lt;font color=&quot;green&quot;&gt; &lt;h1&gt; Características de uma rede neural.&lt;/h1&gt;&lt;/font&gt;
+
+&lt;p&gt;Como não quero deixar a postagem muito grande vou falar de algumas características de uma RNA alguns pontos que acho importane (&lt;del&gt;ou não&lt;/del&gt;)&lt;/p&gt;
+
+&lt;font color=&quot;#90179b&quot;&gt; &lt;h3&gt; Busca paralela .&lt;/h3&gt;&lt;/font&gt;
+&lt;p&gt;A procura pela informação ocorre de maneira paralela e não sequencial.&lt;/p&gt;
+
+&lt;font color=&quot;#871f1f&quot;&gt; &lt;h3&gt; Generalização &lt;strike&gt;muito boa&lt;/strike&gt;. &lt;/h3&gt;&lt;/font&gt;
+&lt;p&gt;Essa é uma das que considero muito boa, pois, é a partir de exemplos anteriores uma RNA é capaz de generalizar seu conhecimento exemplo: enviamos para nossa rede treinar com diversas formas de escrita da letra “A” logo com isso quando escrevermos algo próximo a letra “A” nossa rede ira identificar muito bom né, serve para o alfabeto todo.&lt;/p&gt;
+
+&lt;p&gt;Aprendem padrões a partir dos dados que são abstraídos de modelos de conhecimento. O aprendizado é realizado/implementado por um algoritmo de aprendizado.&lt;/p&gt;
+
+&lt;font color=&quot;#8c0f0f&quot;&gt; &lt;h3&gt; Abstração &lt;strike&gt;muito boa&lt;/strike&gt; .&lt;/h3&gt;&lt;/font&gt;
+&lt;p&gt;Capacidade de identificar a essência a partir de um conjunto de dados de entrada. A partir de padrões
+ruidosos uma RNA pode extrair as informações do padrão se ruído.&lt;/p&gt;
+
+&lt;font color=&quot;#092321&quot;&gt; &lt;h3&gt; São não programáveis. &lt;/h3&gt;&lt;/font&gt;
+&lt;p&gt;Uma RNA deve ser modelada segundo as entradas e saídas envolvidas em um algoritmo de
+aprendizado, buscando mapear corretamente as entradas nas saídas correspondentes&lt;/p&gt;
+
+&lt;font color=&quot;#092321&quot;&gt; &lt;h3&gt; Soluções aproximadas .&lt;/h3&gt;&lt;/font&gt;
+&lt;p&gt;Muitas vezes uma RNA produz uma solução aproximada para um determinado problema. As
+RNA´s são suscetíveis a geração de soluções incorretas.&lt;/p&gt;
+
+&lt;font color=&quot;#2c02ff&quot;&gt; &lt;h1&gt; Redes Neurais Artificiais. &lt;/h1&gt;&lt;/font&gt;
+
+&lt;p&gt;Enfim eu estava cansado de dar tando control+C, vamos falar um pouco das RNA’s  que são formada
+por neurônios artificiais com conexões ponderadas por valores denominados pesos, em uma RNA seus neurônios
+são  arrumados em camadas com conexões entre elas que são organizadas em: camada de entrada,
+camada de saída e camada intermediária, comumente chamada de camada oculta.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/mlp.JPG&quot; alt=&quot;RNA&quot; /&gt;
+No caso da nossa imagem meramente ilustrativa  de uma rede neural do tipo  MLP (multilayer percptron) temos as camadas de entrada, oculta (&lt;del&gt;intermediária&lt;/del&gt;) e saídas.&lt;/p&gt;
+
+&lt;p&gt;Os neurônio artificial é projetado para imitar algumas das principais características de um biológico as entradas de neuro artificial é multiplicada por um peso Qij, gerando entradas ponderadas,
+todas as entradas ponderadas são somadas obtendo-se um valor NET que é o potencial de ativação do neurônio artificial. Com isso o valor do NET será comparado ao valor limite para ativação do
+neurônio&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/wij.png&quot; alt=&quot;Wij&quot; /&gt;&lt;/p&gt;
+
+&lt;font color=&quot;#2c02ff&quot;&gt; &lt;h4&gt; Conexões entre neurônios.&lt;/h4&gt;&lt;/font&gt;
+
+&lt;p&gt;Como cada neurônio artificial possui seu valor real chamado peso sináptico,  dependendo do valor do peso maior ou menor será influência positiva ou negativa do neurônio&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/conexao.png&quot; alt=&quot;conexao&quot; /&gt;&lt;/p&gt;
+
+&lt;font color=&quot;#2c02ff&quot;&gt; &lt;h4&gt; Regra de propagação. &lt;/h4&gt;&lt;/font&gt;
+
+&lt;p&gt;Quando  os estímulos provenientes de outros neurônios são combinados aos pesos sinápticos correspondentes para compor o potencial de  ativação, então
+a regra de propagação estabelece o potencial de ativação de um neurônio NET(k), cujo a regra pode ser um produto escalar entre o vetor de entrada e o vetor
+de pesos.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/regra.png&quot; alt=&quot;regra&quot; /&gt;&lt;/p&gt;
+
+&lt;font color=&quot;#2c02ff&quot;&gt; &lt;h4&gt; Funções de ativação. &lt;/h4&gt;&lt;/font&gt;
+
+&lt;p&gt;Esta é a função que determina o novo valor do estado de ativação do neurônio a partir do potencial de ativação Net(k), assim determina a saída efetiva de um neurônio artificial &lt;font color=&quot;red&quot;&gt;Sk= F(Netk + bk)&lt;/font&gt; onde F é a função de ativação do neurônio e bk é uma constantes que tem efeito de aumentar ou diminuir a entrada líquida da função de ativação, comumente chamada
+de bias. Eu irei postar algumas funções utilizadas:
+&lt;img src=&quot;/images/introducao-a-redes-neurais/linear.png&quot; alt=&quot;linear&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/rampa.png&quot; alt=&quot;rampa&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/degrau.png&quot; alt=&quot;degrau&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/bipolar.png&quot; alt=&quot;bipolar&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/sig.png&quot; alt=&quot;sig&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;font color=&quot;#2c02ff&quot;&gt; &lt;h4&gt; Arquiteturas de RNA´s &lt;/h4&gt;&lt;/font&gt;
+&lt;p&gt;Exitem redes com apenas uma camada de neurônios, múltiplas camadas, redes feedforward( acíclica), redes feddback ( cíclica), redes com recorrência auto-associativa, porém não irei explicar todas aqui
+tentarei fazer postagem de desenvolvimento com redes neurais de múltiplas camadas e poucas camadas.&lt;/p&gt;
+
+&lt;font color=&quot;red&quot;&gt; &lt;h1&gt; Processamento neural &lt;/h1&gt;&lt;/font&gt;
+
+&lt;p&gt;Os processamentos neural artificial pode ser dividio em aprendizado onde é  um processo de atualização dos pesos sinápticos para aquisição do conhecimento, s
+os pesos são atualizados conforme o algoritmo de aprendizado escolhido e o vetor de pesos w(t+1) no instante t+1 pode ser escrito com
+w(t+1) = w(t) +lw(t), onde lw(t) é o ajuste aplicado aos pesos, podemos falar que os algoritmos de aprendizado diferem na forma de como é calculado lw(t).&lt;/p&gt;
+
+&lt;p&gt;O processo de aprendizado possui os seguintes passos:
+&lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;A rede neural é estimulada ao receber um padrão de entrada retirado de um conjunto histórico de padrões ou dados.&lt;/li&gt;
+  &lt;li&gt;A rede neural sofre modificações em seus parâmetros livres.&lt;/li&gt;
+  &lt;li&gt;A rede neural responde de uma nova maneira ao ambiente.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Estes passos são repetidos até um critério de parada seja estabelecido, podendo ser: número de iterações máximo atingido ou erro produzido pela rede atinge um patmar abaixo do limiar definido, devemos levar
+em consideração que uma rede só pode ser aplicada a um problema após ter sido treinada, na fase de aplicação não há atualizações dos pesos sinápticos&lt;/p&gt;
+
+&lt;font color=&quot;red&quot;&gt; &lt;h4&gt; Tipos de aprendizdos em rna &lt;/h4&gt;&lt;/font&gt;
+
+&lt;p&gt;Temos aprendizado supervisionado, onde os pesos sinápticos são atualizados até que o valor do erro fique abaixo de um limite máximo de tolerância especificado
+pelo usuário.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/super.png&quot; alt=&quot;super&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Este tipo de aprendizado envolve a minimização da soma dos erros quadráticos das saídas.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/introducao-a-redes-neurais/nsuper.png&quot; alt=&quot;erro&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Também temos os não supervisionado trabalha os dados de maneira a determinar algumas propriedades dos conjuntos de dados  não existe para cada entrada uma saída desejada, regularidade
+e redundância nas entradas são características essenciais para haver aprendizado não supervisionado. Esse tipo de aprendizado é muito útil para agrupamento de dados e temos o aprendizado por reforço que é útil
+para aplicação de tarefas de controle, porém não irei falar muito que a postagem já ficou muito chatinha.&lt;/p&gt;
+
+&lt;font color=&quot;#37124f&quot;&gt; &lt;h1&gt; Conclusão &lt;/h1&gt;&lt;/font&gt;
+
+&lt;p&gt;Então galerinha estou aqui para concluir essa pequena introdução de redes neurais que podem ser utilizadas para os seguintes problemas: classificação de padrões, reconhecimento de padrões, correção de padrões, previsão de séries temporais,
+ mineração de dados e suporte à decisão. Meus queridos como essa introdução ficou muito longa vou deixar um link de uma rede neural simples que fiz, onde irei na próxima postagem escrever sobre o desenvolvimento dela.
+  &lt;a href=&quot;https://github.com/matheusfrancisco/perceptron/blob/master/Perceptron.c&quot;&gt;Rede Neural utilizando perceptron para identificar compositores e cientistas&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;referências&quot;&gt;Referências&lt;/h1&gt;
+
+&lt;p&gt;Um Introdução a Inteligência Computacional: fundamentos, ferramentas e aplicações. GOLDSCHIMIDT, R. L. Rio de Janeiro, 2010.
+Editora IST-RJ.&lt;/p&gt;
+
+&lt;p&gt;&lt;font color=&quot;#009999
+&quot;&gt;Que a força esteja com você.
+&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;Abração.&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 03 Mar 2017 08:18:47 -0300</pubDate>
+        <link>http://localhost:4000/introdu%C3%A7%C3%A3o-a-rede-neural/</link>
+        <guid isPermaLink="true">http://localhost:4000/introdu%C3%A7%C3%A3o-a-rede-neural/</guid>
+        
+        <category>Redes neurais</category>
+        
+        <category>Neural Network</category>
+        
+        <category>RNA</category>
+        
+        <category>Ling. de prog C</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Estrutura de Dados em C &lt;strike&gt;we need your help&lt;/strike&gt; .</title>
+        <description>&lt;p&gt;&lt;img src=&quot;/images/criando-lista-encadeada/c-logo.jpg&quot; alt=&quot;C&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;introdução&quot;&gt;Introdução.&lt;/h1&gt;
+
+&lt;p&gt;Falaaaaaaaa clã hoje quero fazer um post diferente e bem pequeno, então como é hora de almoço bora pegar o pratão pedreiro aquele suco geladinho &lt;strike&gt;pq há boatos que coca faz mal&lt;/strike&gt; colocar aquele musicão que hoje recomendo Comfortably Numb - Pink Floyd.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/estrutura-de-dados-em-c/wut.jpg&quot; alt=&quot;wut&quot; /&gt;&lt;/p&gt;
+&lt;font color=&quot;red&quot;&gt; &lt;h1&gt;  What the hell's going on??&lt;/h1&gt;&lt;/font&gt;
+
+&lt;p&gt;Então esta postagem não é  tentando ensinar alguma coisa em c &lt;del&gt;se é que ensinamos algo aqui&lt;/del&gt;, pelo contrário estamos aqui pedindo para você nos ajudar a criar um repositório onde todos irão compartilhar exercícios e listas utilizando a linguagem c futuramente pretendemos aumentar para a marivilhosa python.&lt;/p&gt;
+
+&lt;font color=&quot;blue&quot;&gt; &lt;h1&gt;  Repositório &lt;strike&gt;git hub&lt;/strike&gt; &lt;/h1&gt;&lt;/font&gt;
+
+&lt;p&gt;Tentaremos criar um repositório que inicialmente consiste em unidades I, II e III, dentro de cada unidade esta os temas abordados que no caso são: na unidade I temos lista encadeadas simplesmente, duplamente e circulares, na unidade II temos recursividade em geral e na unidade III contém algoritmos de ordenação como select sort, heap sort etc…&lt;br /&gt;
+Link para o repositório, &lt;a href=&quot;https://github.com/matheusfrancisco/Estrutura-de-Dados&quot;&gt;estrutura de dados em c&lt;/a&gt;&lt;/p&gt;
+
+&lt;font color=&quot;purple&quot;&gt; &lt;h3&gt;  Como você pode ajudar. &lt;/h3&gt;&lt;/font&gt;
+
+&lt;p&gt;Então sua ajuda pode ser simplesmente você tem um código que segue um bom padrão de programação que esteja comentado sobre lista, recursão, ordenação e futuramente arvore envie  para o nosso git hub ou para o email:&lt;font color=&quot;green&quot;&gt;matheusfrancisco001@hotmail.com&lt;/font&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;estrutura-do-repositório&quot;&gt;Estrutura do repositório&lt;/h4&gt;
+
+&lt;p&gt;O repositório é composto com a seguinte estrutura, na unidade I contém um readme onde tem uma breve introdução sobre o assunto abordado tanto quanto todas as outras e cada uma contêm uma pasta com os exemplos aplicados e comentados de preferência.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+1. [Introduação](#)
+2. [Unidade I](#)
+    1. [Lista simplesmente encadeada](#)
+      1. [Lista com cabeça](#)
+      2. [Lista sem cabeça](#)
+    2. [Lista duplamente encadeada](#)
+    3. [Lista circular](#)
+3. [Unidade II]()
+  1. [Recursão](#)
+4. [Unidade III](#)
+  1. [Algoritmos de Ordenação](#)
+5. [Listas de Exercícios](#)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&quot;diferencial-ou-não&quot;&gt;Diferencial &lt;del&gt;ou não&lt;/del&gt;.&lt;/h4&gt;
+
+&lt;p&gt;O que pensamos simplesmente foi criar uma unidade onde você também pode submeter listas de exercicios, assim, gotariamos de ajudar você a resolver problemas em geral da sua faculdade até mesmo trabalhos que estão travados no desenvolvimento envie-nos e afinal código bom é código compartilhado &lt;del&gt;inventei isso agora&lt;/del&gt;.&lt;/p&gt;
+
+&lt;font color=&quot;yellow&quot;&gt; &lt;h1&gt;  Conclusão  &lt;/h1&gt;&lt;/font&gt;
+
+&lt;p&gt;Galerinha o repositório foi criado não tem muito tempo ou melhor não tem tempo nenhum, mas pretendemos fazer com que isso se torne algo grande, &lt;del&gt;something big&lt;/del&gt; um lugar onde todos poderão encontrar diversas soluções dessa maravilhosa linguagem que é C e deste tema fantástico que é estrutura de dados.&lt;br /&gt;
+Muitas coisas vão melhorar espero que com a ajuda de todos….&lt;/p&gt;
+
+&lt;font color=&quot;red&quot;&gt; Qualquer ajuda, qualquer dúvida, qualquer coisa que possa fazer isso crescer envie mensagem ou commit no git, vamos tentar ajudar.&lt;/font&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/matheusfrancisco/Estrutura-de-Dados&quot;&gt;repositório&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;font color=&quot;#009999
+&quot;&gt;Que a força esteja com você.
+&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;Grande abraço e um maravilhoso dia.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 22 Feb 2017 07:31:47 -0300</pubDate>
+        <link>http://localhost:4000/estrutura-de-dados-em-c/</link>
+        <guid isPermaLink="true">http://localhost:4000/estrutura-de-dados-em-c/</guid>
+        
+        <category>Git hub</category>
+        
+        <category>Estrutura de dados em C</category>
+        
+        <category>Linguagem de programação</category>
+        
+        <category>Data Scruct in C</category>
+        
+        
+        <category>Open</category>
+        
+        <category>Source</category>
+        
+      </item>
+    
+      <item>
+        <title>Ponteiros em C</title>
+        <description>&lt;p&gt;&lt;img src=&quot;/images/ponteiro-em-c/c-logo.jpg&quot; alt=&quot;C&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;introdução&quot;&gt;Introdução.&lt;/h1&gt;
+
+&lt;p&gt;FINALMENTE ESTAMOS DE VOLTA…&lt;br /&gt;
+Falaa galerinha pega aquele café já coloca pra tocar aquele &lt;font color=&quot;#0e3ad6&quot;&gt;time&lt;/font&gt; da &lt;font color=&quot;#db0a26&quot;&gt;Pink Floyd&lt;/font&gt;, que hoje vamos fritar o cérebro, como eu prometi  &lt;strike&gt;79mil anos atrás&lt;/strike&gt; hoje vou tentar ensinar o que são esses negócios loucos chamado ponteiro.&lt;/p&gt;
+
+&lt;h1 id=&quot;o-são-ponteiros&quot;&gt;O são ponteiros?&lt;/h1&gt;
+
+&lt;p&gt;Um ponteiro ( &lt;i&gt;= apontador = pointer&lt;/i&gt;)nada mais é do que uma variável que armazena endereço de outras variáveis, como você sabe, cada variável é um local de memória e cada local de memória tem seu endereço definido que pode ser acessado usando o (&lt;b&gt;&amp;amp;&lt;/b&gt;). O exemplo abaixo irá imprimir os endereços de memórias das variáveis.&lt;br /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;coffe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alotcoffe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+   &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cade o endereco do coffe: %x&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coffe&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Cade o endereco de muito coffe uruull: %x&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alotcoffe&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Outro exemplo : O que é o ponteiro de um relógio? É o que aponta para as horas, minutos ou segundos. Um ponteiro aponta para algo. Em programação, temos as variáveis armazenadas na memória, e um ponteiro aponta para um endereço de memória, essa frase foi retirada.&lt;br /&gt;Fonte :&lt;a href=&quot;https://pt.wikibooks.org/wiki/Programar_em_C/Ponteiros&quot;&gt;Wikibooks&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;declarando-ponteiros&quot;&gt;Declarando ponteiros.&lt;/h3&gt;
+
+&lt;p&gt;Utilizamos para declarar um ponteiro &lt;b&gt;type&lt;/b&gt; é o tipo do ponteiro, que deve ser um tipo de dados válido em C e o &lt;b&gt;var-name&lt;/b&gt; é o nome da variável. O asterisco &lt;b&gt;*&lt;/b&gt; é usado para declarar um pointeiro, segue alguns exemplos básicos.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;cm&quot;&gt;/* ponteiro para um inteiros  */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;cm&quot;&gt;/* ponteiro para um double */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;cm&quot;&gt;/* ponteiro para um float */&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;    &lt;span class=&quot;cm&quot;&gt;/* ponteiro para um character */&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;como-usar-ponteiros-exemplo-simples&quot;&gt;Como usar ponteiros &lt;del&gt;exemplo-simples&lt;/del&gt;?&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/ponteiro-em-c/EsquemaPonteiro.png&quot; alt=&quot;celula&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Para tentar fixar um exemplo de como iremos ou podemos acessar o valor através do endereço de memória, vamos delcarar as variáveis do ponteiro, atribuir o endereço de uma variável a um ponteiro e acessamos o valor no endereço disponível.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;cm&quot;&gt;/* variavel declarada */&lt;/span&gt;
+   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;        &lt;span class=&quot;cm&quot;&gt;/* pontiero tipo inteiro declarado */&lt;/span&gt;
+
+   &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;cm&quot;&gt;/* amarmazenamos o endereço da  a em um ponteiro*/&lt;/span&gt;
+
+   &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Endereco da variavel: %x&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+   &lt;span class=&quot;cm&quot;&gt;/* endereço armazenado no ponteiro */&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Endereço  na variavel ip: %x&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+   &lt;span class=&quot;cm&quot;&gt;/* Acessando seu valor usando o ponteiro*/&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Valor da variavel *ip : %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ip&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Um outro exemplo bobo sobre ponteiro:&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// p é um ponteiro para um inteiro
+&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// o valor de p é o endereço de a
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// q aponta para b
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Maissss um bobo, só que ilustrado.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/ponteiro-em-c/cpp_ptr_01.gif&quot; alt=&quot;celula&quot; /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ptr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;uma-falha-de-segmentação-ou-em-inglês-segmentation-fault&quot;&gt;Uma falha de segmentação ou em inglês (segmentation fault).&lt;/h1&gt;
+
+&lt;p&gt;Uma falha de segmentação ou em inglês (segmentation fault) ocorre quando um programa tenta acessar um endereço na memória que está reservado ou que não existe.Nos sistemas Unix quando acontece este tipo de erro o sinal SIGSEGV é enviado ao programa indicando uma falha de segmentação, o ponteiro contem null, definido com o endereço (0x00000000) que causa uma falha de segmentação.&lt;br /&gt;
+Para que isso não aconteça o ponteiro deve ser inicializado com um endereço válido.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;errno.h&amp;gt;
+#include &amp;lt;stddef.h&amp;gt;
+&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+       &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;cm&quot;&gt;/* A operação não é permitida */&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EPERM&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+     &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+          &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Endereço a disposição:%p&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* Pode colocar 5 */&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;NULL está definido dentro do cabeçalho stddef.h . Aqui você não espera que o programa acabe com algum tipo de mágica, se NULL é igual ao valor do ponteiro isso significa que não foi encontrado nem um endereço acessível, então você para, caso contrario você estará executando uma operação que não é permitida. Ou colocar 5 em (0x00000000).
+&lt;br /&gt;Fonte :&lt;a href=&quot;https://pt.wikibooks.org/wiki/Programar_em_C/Ponteiros&quot;&gt;Wikibooks&lt;/a&gt; &lt;strike&gt;fique com preguiça de escrever&lt;/strike&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;ponteiro-de-estrutura-loucura-loucura&quot;&gt;Ponteiro de estrutura &lt;del&gt;loucura loucura&lt;/del&gt;.&lt;/h1&gt;
+
+&lt;p&gt;Então como eu não expliquei tudo sobre estrutura vou dar uma passada rápida &lt;strike&gt;because, i'm the fastest man alive&lt;/strike&gt;, mas eu prometo que logo faço uma postagem completa de structs…&lt;br /&gt;
+Na postagem de &lt;a href=&quot;https://matheusfrancisco.github.io/como-criar-lista-encadeadas-em-c/&quot;&gt;lista-encadeada-em-c&lt;/a&gt; nos criamos uma struct de lista que armazena números inteiros, então agora vamos tentar entender melhor esse tal de ponteiro com outra strcut.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/* temos uma estrutura que armazena nome e idade de uma pessoa */&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pessoa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;No seguinte código criamos uma pessoa joao e um ponteiro que recebe o endereço de memória de joao, com isso podemos acessar os valores de pessoa joao e alterar como segui no exemplo.&lt;br /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pessoa&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pessoa&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;strcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;joao da silva&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;O código abaixo tem a mesma função porém substituimos o operdaor &lt;b&gt;(*p)&lt;/b&gt; pelo &lt;b&gt; (- &lt;b&gt;&amp;gt;&lt;/b&gt;)&lt;/b&gt;, simplesmente para mostrar que também pode ser utilizado desta maneira.&lt;br /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pessoa&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pessoa&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;strcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;joao da silva&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;vamos-tentar-complicar-um-poucowut&quot;&gt;Vamos tentar complicar um pouco.&lt;del&gt;wut&lt;/del&gt;&lt;/h3&gt;
+
+&lt;p&gt;Neste código criamos uma struct que  é um produto livro que contém titulo ,autor, editora, ano e numeros de exemplares, com isso podemos fazer o ponteiro percorrer cada um destes valores, também podemos apagar o endereço de memória deletando completamente, utilizar para percorrer quantidade de livros.&lt;br /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;livro&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+ &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;titulo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+ &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;autor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+ &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;editora&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+ &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ano&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_exemplares&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;produto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+
+ &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;cm&quot;&gt;/* variáveis do tipo livro */&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;produto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;livro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;livro2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;livro3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;produto&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;livro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;strcpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;livro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;titulo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Ponteiro em C&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;livro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ano&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2018&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;titulo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ano&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ano&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2020&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*podemos atribuir um novo valor para a variavel utilizando o ponteiro*/&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;livro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;titulo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;livro&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ano&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;outra-aplicação-ponteiros-como-parâmetros-de-funções&quot;&gt;Outra aplicação, Ponteiros como parâmetros de funções.&lt;/h4&gt;
+
+&lt;p&gt;Neste exemplo, definimos a função swap() como uma função que toma como argumentos dois ponteiros para inteiros; a função faz a troca entre os valores apontados pelos ponteiros. Já na função main(), passamos os endereços das variáveis para a função swap(), de modo que a função swap() possa modificar variáveis locais de outra função. O único possível inconveniente é que, quando usarmos a função, teremos de lembrar de colocar um &amp;amp; na frente das variáveis que estivermos passando para a função.&lt;/p&gt;
+
+&lt;p&gt;Se você pensar bem, já vimos uma função em que passamos os argumentos precedidos de &amp;amp;: é a função scanf()! Por que fazemos isso? É simples: chamamos a função scanf() para que ela ponha nas nossas variáveis valores digitados pelo usuário. Ora, essas variáveis são locais, e portanto só podem ser alteradas por outras funções através de ponteiros!&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;/span&gt;
+ &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;swap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+ &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Eles valem %d, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;swap&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Eles agora valem %d, %d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusão&quot;&gt;Conclusão&lt;/h2&gt;
+&lt;p&gt;Então pessoal esta postagem foi apenas uma introdução dos ponteiros espero que tenham gostado, foi mais um resumo de como aplicar os ponteiros, pois eu recomendo que peguem exercícios e tentem praticar porque é uma ferramenta muito boa para desenvolvimente com a linguagem c.&lt;br /&gt;
+Eu gostaria de notificar que irei começar a postar com frequência pelo menos uma vez por semana &lt;strike&gt;no minimo&lt;/strike&gt;, vocês podem mandar temas sugestoes e também podem mandar e-mail com exercícios que eu faço uma postagem explicando ou envio pelo email mesmo o exercícios&lt;/p&gt;
+
+&lt;h3 id=&quot;alguns-links-sobre-ponteiros&quot;&gt;Alguns links sobre Ponteiros.&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://pt.wikibooks.org/wiki/Programar_em_C/Ponteiros&quot;&gt;Wikibooks&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.tutorialspoint.com/cprogramming/c_pointers.htm&quot;&gt;tutorialpoint&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://www.univasf.edu.br/~criston.souza/algoritmos/arquivos/aula14.pdf&quot;&gt;Ponteiro Arquivo&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://www.dca.fee.unicamp.br/cursos/EA876/apostila/HTML/node139.html&quot;&gt;Puta_site_massa_&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;font color=&quot;#009999
+&quot;&gt;Que a força esteja com você.
+&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;Abração.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 15 Feb 2017 05:58:47 -0200</pubDate>
+        <link>http://localhost:4000/ponteiro-em-c/</link>
+        <guid isPermaLink="true">http://localhost:4000/ponteiro-em-c/</guid>
+        
+        <category>Ponteiro C</category>
+        
+        <category>Estrutura de Dados</category>
+        
+        <category>Linguagem de programação</category>
+        
+        <category>Ling. de prog C</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Criando uma lista encadeada em C</title>
+        <description>&lt;p&gt;&lt;img src=&quot;/images/criando-lista-encadeada/c-logo.jpg&quot; alt=&quot;C&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;introdução&quot;&gt;Introdução.&lt;/h1&gt;
+
+&lt;p&gt;Falaaaaa galerinha estamos aqui mais uma vez para tentar ensinar algo, então é  o seguinte hoje vamos criar uma lista encadeada na linguagem C, para esse tutorial acredito que vai ser necessário um pré conhecimento de como utilizar ponteiros e sobre estruturas em c &lt;strike&gt;que em breve crio um tutorial de ambos os assuntos&lt;/strike&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;o-que-é-uma-lista-encadeada&quot;&gt;O que é uma lista encadeada?&lt;/h1&gt;
+
+&lt;p&gt;Uma lista encadeada ( &lt;i&gt;linked list&lt;/i&gt;)   representa uma sequência de objetos do mesmo tipo,  ou seja são uma maneira de armazenar dados com estruturas para que o programador possa criar automaticamente um novo local para armazenar dados sempre que necessário. Geralmente o programador utiliza uma definição struct que contém variáveis para guarda informações e um ponteiro para próxima struct do mesmo tipo.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+    ------------------------------              ------------------------------
+    |              |             |            \ |              |             |
+    |     DATA     |     NEXT    |--------------|     DATA     |     NEXT    |
+    |              |             |            / |              |             |
+    ------------------------------              ------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;criando-uma-struct-célula&quot;&gt;Criando uma struct &lt;del&gt;célula&lt;/del&gt;.&lt;/h1&gt;
+
+&lt;p&gt;Galerinha primeiro vamos criar nossa struct que a partir de agora iremos chamar de célula, cada célula irá conter um objeto de algum tipo e o endereço da célula seguinte.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;img src=&quot;/images/criando-lista-encadeada/celula-de-lista-prox.png&quot; alt=&quot;celula&quot; /&gt;
+&lt;img src=&quot;/images/criando-lista-encadeada/celula-de-lista-prox.png&quot; alt=&quot;celula&quot; /&gt;
+&lt;img src=&quot;/images/criando-lista-encadeada/celula-de-lista-prox.png&quot; alt=&quot;celula&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Como podemos ver nas imagens nossa estrutura armazena um número inteiro e um ponteiro para a célula seguinte, sendo assim podemos inserir um número inteiro e criar uma  lista &lt;strike&gt;uma estrutura bem simples&lt;/strike&gt; .&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nome&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;idade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cpf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Já nessa estrutura podemos armazenar um nome, uma idade e um cpf e criar uma lista de pessoas, que você pode criar métodos de ordenação &lt;font color=&quot;red&quot;&gt;Heap-Sort&lt;/font&gt;, &lt;font color=&quot;blue&quot;&gt;Merge-Sort&lt;/font&gt;,  &lt;font color=&quot;green&quot;&gt;Quick-Sort&lt;/font&gt; entre outros. Com isso você pode ordenar por nome, idade ou qualquer outro critério   de sua escolha &lt;strike&gt;irei escreve sobre esses métodos de ordenação&lt;strike&gt;.
+Agora iremos da o nome para a struct pois falamos que iremos chama-la de célula.&lt;/strike&gt;&lt;/strike&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;k&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// célula
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Pronto nossa struct agora é um &lt;a href=&quot;https://www.ime.usp.br/~pf/algoritmos/aulas/footnotes/data-type.html&quot;&gt;tipo de dado&lt;/a&gt; chamado célula.&lt;/p&gt;
+
+&lt;h1 id=&quot;inserindo-na-nossa-lista&quot;&gt;Inserindo na nossa lista.&lt;/h1&gt;
+
+&lt;p&gt;Agora vamos inserir alguns elementos na nossa lista, porém  nossa lista é uma lista simplesmente encadeada com cabeça para facilitar a inserção pois existem listas simplesmente  encadeada sem cabeça, duplamente encadeadas com e sem cabeça e listas circulares simplesmente encadeadas e duplamente encadeadas, como não quero que fique muito grande o texto &lt;strike&gt;para não ficar chato a leitura&lt;/strike&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+         &lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;lst&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+
+&lt;span class=&quot;cm&quot;&gt;/*método de criação de lista com cabeça diferente*/&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LISTA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;LISTA&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;malloc&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*aloca memória para não perder o endereço*/&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;LISTA&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*nunca esquecer de sempre apontar para null*/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Neste trecho criamos uma &lt;font color=&quot;blue&quot;&gt;célula c&lt;/font&gt; que é uma estrutura do tipo test que contém uma variável do tipo int e um ponteiro para célula seguinte, também foi criado uma  &lt;font color=&quot;red&quot;&gt;célula *lst&lt;/font&gt; que recebe  o endereço de memória da &lt;font color=&quot;blue&quot;&gt;célula c&lt;/font&gt;. As vezes convém tratar a primeira célula de uma lista encadeada como um mero marcador de início e ignorar o conteúdo da célula. Nesse caso, dizemos que a primeira célula é a cabeça.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/criando-lista-encadeada/lst_ord.png&quot; alt=&quot;lst&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;inserindo&quot;&gt;Inserindo.&lt;/h3&gt;
+&lt;p&gt;Criando uma função para inserir na lista.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;insere&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nova&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;nova&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;malloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;nova&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;valor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;nova&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nova&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Esta função  recebe um número inteiro e o endereço da sua cabeça lst que definimos anteriormente, na primeira linha você cria uma célula nova e aloca memória depois armazenamos o valor inteiro na nova célula &lt;strike&gt;agora  nesta parte vamos tentar imaginar  &lt;/strike&gt;, você tem uma célula &lt;font color=&quot;red&quot;&gt;LST--&amp;gt;NULL&lt;/font&gt; em seguida na linha &lt;font color=&quot;blue&quot;&gt;nova-&amp;gt;seg = p-&amp;gt;seg&lt;/font&gt; sabendo  que &lt;font color=&quot;green&quot;&gt;célula *p&lt;/font&gt; é um  ponteiro que recebeu sua lista LST, então temos que sua nova célula aponta para onde LST esta apontando ou seja para NULL e logo em seguida mudamos o ponteiro dentro de LST para a nova célula &lt;strike&gt; como a lista é com cabeça não precisamos verificar se o inicio é NULL pois temos já um endereço de memória que passamos para LST que foi a célula c&lt;/strike&gt;.
+Nossa lista fica assim com a primeira inserção &lt;font color=&quot;red&quot;&gt;LST--&amp;gt;VALOR--&amp;gt;NULL&lt;/font&gt;  quando passamos novamente o valor e a lst para inserir vamos estar inserindo entre a LST e o VALOR ou seja nosso VALOR2 será inserido desta maneira  LST–&amp;gt;VALOR2–&amp;gt;VALOR–&amp;gt;NULL.&lt;/p&gt;
+
+&lt;h3 id=&quot;imprimindo-a-lista-simplesmente-encadeada&quot;&gt;Imprimindo a lista simplesmente encadeada&lt;/h3&gt;
+
+&lt;p&gt;Então pessoal se a parte de inserção não ficou clara como eu mexi nos ponteiros envie um email ou tente desenhar que eu envio os desenho e uma explicação porque agora iremos imprimir os valores inseridos .&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;imprime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;celula&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aux&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;aux&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lst&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aux&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%i&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aux&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;valor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;aux&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aux&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;seg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Esta aqui é uma função fácil de entender estamos passando toda nossa lista para ela, ou seja só precisamos iterar sobre ela &lt;strike&gt;caso sua lista seja sem cabeça você precisa verificar antes se o inicio é NULL para não ocorrer erros&lt;/strike&gt;.&lt;br /&gt;
+Então temos um ponteiro &lt;font color=&quot;green&quot;&gt;célula *aux&lt;/font&gt; que vamos iterar sobre a lista e ir imprimindo os valores da lista iremos até ser igual a NULL ou seja enquanto o ponteiro for diferente de NULL imprimimos o valor nunca podemos esquecer de passar o ponteiro para a célula seguinte.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusão&quot;&gt;Conclusão&lt;/h2&gt;
+&lt;p&gt;Então pessoal é só isso irei deixar um código no &lt;a href=&quot;https://hastebin.com/fusefoyuso.cpp&quot;&gt;hastebin&lt;/a&gt; que está inserindo e imprimindo valores em uma lista simplesmente encadeada, também irei criar um repositório no github onde postarei todos os tipos de estrutura de dados em c para que todos possam contribuir.&lt;/p&gt;
+
+&lt;h3 id=&quot;alguns-site-sobre-lista-encadeada&quot;&gt;Alguns site sobre lista encadeada.&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.cprogramming.com/tutorial/c/lesson15.html&quot;&gt;Cpprogramming&lt;/a&gt;
+&lt;a href=&quot;https://www.ime.usp.br/~pf/algoritmos/aulas/lista.html&quot;&gt;Ime-usp&lt;/a&gt;
+&lt;a href=&quot;http://www.thegeekstuff.com/2012/08/c-linked-list-example&quot;&gt;GeekStuff&lt;/a&gt;
+Se alguém quiser mais programa sobre lista ou alguma estrutura de dados em C é só entrar em contato.&lt;/p&gt;
+
+&lt;p&gt;&lt;font color=&quot;#009999
+&quot;&gt;Que a força esteja com você.
+&lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;Abração.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 22 Jan 2017 08:31:47 -0200</pubDate>
+        <link>http://localhost:4000/como-criar-lista-encadeadas-em-c/</link>
+        <guid isPermaLink="true">http://localhost:4000/como-criar-lista-encadeadas-em-c/</guid>
+        
+        <category>C</category>
+        
+        <category>Estrutura de dados em C</category>
+        
+        <category>Linguagem de programação</category>
+        
+        <category>ED</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Como escrever um readme no github</title>
+        <description>&lt;p&gt;&lt;img src=&quot;http://octodex.github.com/images/minion.png&quot; alt=&quot;Github&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;introdução&quot;&gt;Introdução&lt;/h2&gt;
+
+&lt;p&gt;Fala galerinha do bem, hoje eu gostaria de explicar para você como escrever um bom readme.md no github, por mais que este 
+seja um tutorial básico espero que ajude na questão de lugares para pesquisar.
+Então para começar sabemos que o github funciona com markdown ou seja para escrever um bom readme.md você deve aprender um 
+pouco das syntax do &lt;a href=&quot;https://daringfireball.net/projects/markdown/syntax&quot;&gt;markdown&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;o-que-é-markdown-&quot;&gt;O que é markdown ?&lt;/h2&gt;
+
+&lt;p&gt;Markdown é uma linguagem simples de marcação originalmente criada por John Gruber e Aaron Swartz . Markdown converte seu texto em XHTML válido.&lt;/p&gt;
+
+&lt;h2 id=&quot;syntax&quot;&gt;Syntax&lt;/h2&gt;
+
+&lt;h1 id=&quot;heading&quot;&gt;Heading&lt;/h1&gt;
+&lt;pre&gt;&lt;code&gt;
+# h1 Heading
+## h2 Heading
+### h3 Heading
+#### h4 Heading
+##### h5 Heading
+###### h6 Heading
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;h1&quot;&gt;H1&lt;/h1&gt;
+
+&lt;h2 id=&quot;h2&quot;&gt;H2&lt;/h2&gt;
+
+&lt;h3 id=&quot;h3&quot;&gt;H3&lt;/h3&gt;
+
+&lt;h4 id=&quot;h4&quot;&gt;H4&lt;/h4&gt;
+
+&lt;h5 id=&quot;h5&quot;&gt;H5&lt;/h5&gt;
+
+&lt;p&gt;Alternativa aos heading&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+TEST
+====
+Test
+-------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&quot;test&quot;&gt;TEST&lt;/h1&gt;
+
+&lt;h2 id=&quot;test-1&quot;&gt;Test&lt;/h2&gt;
+
+&lt;p&gt;##Ênfases&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+Itálico *asterisco*  ou _underscores_.
+
+Negrito ,  **astericos** or __underscores__.
+
+Negrito e itálico **astericos e _underscores_**.
+
+Strikethrough Riscos  ou tachado. ~~Scratch this.~~
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Itálico &lt;em&gt;asterisco&lt;/em&gt;  ou &lt;em&gt;underscores&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Negrito ,  &lt;strong&gt;asteriscos&lt;/strong&gt; or &lt;strong&gt;underscores&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Negrito e itálico &lt;strong&gt;asteriscos e &lt;em&gt;underscores&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Strikethrough Riscos  ou tachado. &lt;del&gt;Scratch this.&lt;/del&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;links&quot;&gt;Links&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;
+[Esse link](http://example.net/)
+[About](/about/)
+
+
+
+ Usando o atalho de nome de link implícito, você poderia escrever:
+[1]: http://google.com/        &quot;Google&quot;
+[2]: http://search.yahoo.com/  &quot;Yahoo Search&quot;
+[3]: http://search.msn.com/    &quot;MSN Search&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;code&quot;&gt;Code&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;
+        ```javascript
+function fancyAlert(arg) {
+  if(arg) {
+    $.facebox({div:'#foo'})
+  }
+}
+```
+
+```python
+s = &quot;Python syntax highlighting&quot;
+print s
+```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;fancyAlert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;facebox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#foo'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Python syntax highlighting&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;imagens&quot;&gt;Imagens&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;
+Inline-style: 
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png &quot;Logo Title Text 1&quot;)
+
+Reference-style: 
+![alt text][logo]
+
+[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png &quot;Logo Title Text 2&quot;
+
+![Minion](http://octodex.github.com/images/minion.png)
+
+![Alt text](http://octodex.github.com/images/stormtroopocat.jpg &quot;The Stormtroopocat&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Inline-style: 
+&lt;img src=&quot;https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png&quot; alt=&quot;alt text&quot; title=&quot;Logo Title Text 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Reference-style: 
+&lt;img src=&quot;https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png&quot; alt=&quot;alt text&quot; title=&quot;Logo Title Text 2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://octodex.github.com/images/stormtroopocat.jpg&quot; alt=&quot;Alt text&quot; title=&quot;The Stormtroopocat&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;##Tabelas&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+| Option | Description |
+| ------ | ----------- |
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Option&lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;data&lt;/td&gt;
+      &lt;td&gt;path to data files to supply the data that will be passed into templates.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;engine&lt;/td&gt;
+      &lt;td&gt;engine to be used for processing templates. Handlebars is the default.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ext&lt;/td&gt;
+      &lt;td&gt;extension to be used for dest files.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;citações-de-bloco&quot;&gt;Citações de bloco&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;
+Uma citação
+&amp;gt; Que a força esteja com você.
+&amp;gt; I love coffe
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Uma citação&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Que a força esteja com você. &lt;br /&gt;
+I love coffe &lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;conclusão&quot;&gt;Conclusão&lt;/h2&gt;
+
+&lt;p&gt;Então pessoal espero que gostem, pois tentei trazer algo simples para que vocês tenha uma noção do básico assim, podem pegar na parte de referência que tem coisas completas e bem complexas como criação de sumários, adicionar vídeos e etc..&lt;br /&gt;
+Aqueleeeee abração&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Que a força esteja com você.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;referências&quot;&gt;Referências&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://pt.wikipedia.org/wiki/Markdown&quot;&gt;Wiki&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&quot;&gt;Markdown-Cheatsheet&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://daringfireball.net/projects/markdown/syntax#precode&quot;&gt;Markdonw-syntax&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://learn.getgrav.org/content/markdown&quot;&gt;Markdown-syntax-lear&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;Basic-markdown&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 17 Jan 2017 05:31:47 -0200</pubDate>
+        <link>http://localhost:4000/github-readme/</link>
+        <guid isPermaLink="true">http://localhost:4000/github-readme/</guid>
+        
+        <category>github</category>
+        
+        <category>tutorial</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Primeiro post</title>
+        <description>&lt;p&gt;Olá esta é minha primeira postagem no blog então irei tentar esclarecer algumas coisas, primeiramente 
+o blog foi criado porque eu gosto de compartilhar coisas que eu aprendo no dia-dia. Porém, como esta na minha descrição &lt;a href=&quot;/about/&quot;&gt;Sobre min&lt;/a&gt; sou estudante de engenharia e também gostaria de falar um pouco sobre o curso.
+Então este blog será construido em explicações &lt;strike&gt;Mitológicas minhas&lt;/strike&gt; , afim de trazer conteúdo sobre tecnologia e projetos que estou desenvolvendo.
+Galerinha fique claro sou  um completo amador quando o assunto é escrever ou tentar ensinar este é outro motivo  da criação do blog aprender ou melhorar a escrita  e didática, também conhecimento nunca é demais.&lt;/p&gt;
+
+&lt;p&gt;Irei fazer um post sobre tudo que utilizei pra criar o blog, quero deixar claro que muitas coisas aqui do template foi tirado de blogs como &lt;a href=&quot;webjeda.com&quot;&gt;webjeba&lt;/a&gt;, &lt;a href=&quot;https://willianjusten.com.br/&quot;&gt;wiliian justen&lt;/a&gt;  então o cara foda dos template é esse tall de will que eu recomendo muito olharem o blog dele pra quem é da área web.
+Mas quero deixar claro que irei postar coisas de hardware também  e algumas coisas sobre microcontroladores.&lt;/p&gt;
+
+&lt;p&gt;Voltando a linguagem como irei disponibilizar o blog tentarei explicar o que cada pasta e arquivo faz, &lt;strike&gt;novamente will tem um curso sobre jekyll mt bom que eu recomendo e fiz&lt;/strike&gt;.&lt;/p&gt;
+
+&lt;p&gt;Então galerinha isso foi mais uma introdução do que esta por vir &lt;strike&gt;que boxta&lt;/strike&gt;. Espero que consiga ensinar coisas legais para todos no futuro.&lt;/p&gt;
+
+&lt;p&gt;Que a força esteja com você.&lt;/p&gt;
+&lt;p&gt;Abração.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.facebook.com/matheusfranciscobatistamachado&quot;&gt;Matheus&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Documentação do jekyll &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt;, também esta o &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll Github&lt;/a&gt; e uma 
+&lt;a href=&quot;https://willianjusten.com.br/perguntas-e-respostas-jekyll/&quot;&gt;explicação sobre jekyll feita por Willian Justen&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 27 Dec 2016 03:21:47 -0200</pubDate>
+        <link>http://localhost:4000/meu-primeiro-post/</link>
+        <guid isPermaLink="true">http://localhost:4000/meu-primeiro-post/</guid>
+        
+        <category>Offline</category>
+        
+        
+        <category>apresentacao</category>
+        
+      </item>
+    
+  </channel>
+</rss>

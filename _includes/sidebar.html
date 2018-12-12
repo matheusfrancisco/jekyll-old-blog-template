@@ -1,0 +1,34 @@
+<div class="col-md-4 mt20">
+        <div class="post-img">
+           {% if page.img %}
+            <!--img width="600" src="{{site.baseurl}}/images/{{page.img}}" alt="{{page.title}}"-->
+            {% else %}
+            <!--img width="600" src="{{site.baseurl}}/images/{{site.default-image}}" alt="webjeda"-->
+            {% endif %}
+        </div>
+            
+        
+        <div class="mt10 recent">
+            <h2>Postagens recentes</h2>        
+            <div class="block sticky">
+                <h1>{{ site.str_recent_posts }}</h1>
+                <ul>
+                    {% assign posts = '' | split: '' %}
+                    {% for post in site.posts %}
+                    {% if post.hide != true %}
+                    {% assign posts = posts | push: post %}
+                    {% endif %}
+                    {% endfor %}
+                    {% assign posts = posts | sort: 'date' | reverse %}
+                    {% for post in posts limit:site.recent_posts_num %}
+                    <li><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt10">
+           
+        </div>
+
+</div>

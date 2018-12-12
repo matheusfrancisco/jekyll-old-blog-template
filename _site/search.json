@@ -1,0 +1,59 @@
+[
+  
+    {
+      "title"    : "Introdução a Grafos",
+      "category" : "",
+      "tags"     : "Introducao Grafos, C++, and Linguagem de programação",
+      "url"      : "/introducao-a-grafos/",
+      "date"     : "05 Mar 2017"
+    } ,
+  
+    {
+      "title"    : "Introdução a redes neurais",
+      "category" : "",
+      "tags"     : "Redes neurais, Neural Network, RNA, and Ling. de prog C",
+      "url"      : "/introdu%C3%A7%C3%A3o-a-rede-neural/",
+      "date"     : "03 Mar 2017"
+    } ,
+  
+    {
+      "title"    : "Estrutura de Dados em C &lt;strike&gt;we need your help&lt;/strike&gt; .",
+      "category" : "OpenSource",
+      "tags"     : "Git hub, Estrutura de dados em C, Linguagem de programação, and Data Scruct in C",
+      "url"      : "/estrutura-de-dados-em-c/",
+      "date"     : "22 Feb 2017"
+    } ,
+  
+    {
+      "title"    : "Ponteiros em C",
+      "category" : "",
+      "tags"     : "Ponteiro C, Estrutura de Dados, Linguagem de programação, and Ling. de prog C",
+      "url"      : "/ponteiro-em-c/",
+      "date"     : "15 Feb 2017"
+    } ,
+  
+    {
+      "title"    : "Criando uma lista encadeada em C",
+      "category" : "",
+      "tags"     : "C, Estrutura de dados em C, Linguagem de programação, and ED",
+      "url"      : "/como-criar-lista-encadeadas-em-c/",
+      "date"     : "22 Jan 2017"
+    } ,
+  
+    {
+      "title"    : "Como escrever um readme no github",
+      "category" : "",
+      "tags"     : "github and tutorial",
+      "url"      : "/github-readme/",
+      "date"     : "17 Jan 2017"
+    } ,
+  
+    {
+      "title"    : "Primeiro post",
+      "category" : "apresentacao",
+      "tags"     : "Offline",
+      "url"      : "/meu-primeiro-post/",
+      "date"     : "27 Dec 2016"
+    } 
+  
+]
